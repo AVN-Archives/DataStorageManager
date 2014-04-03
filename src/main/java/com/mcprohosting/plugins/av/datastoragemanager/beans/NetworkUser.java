@@ -14,7 +14,7 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "network_users")
 @NoArgsConstructor
-public class User {
+public class NetworkUser {
 
     @Id
     @Getter @Setter Integer id;

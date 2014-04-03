@@ -1,7 +1,7 @@
 package com.mcprohosting.plugins.av.datastoragemanager.listeners;
 
 import com.avaje.ebean.Ebean;
-import com.mcprohosting.plugins.av.datastoragemanager.beans.User;
+import com.mcprohosting.plugins.av.datastoragemanager.beans.NetworkUser;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -14,20 +14,20 @@ import java.util.UUID;
 
 public class PlayerListener implements Listener {
 
-    private Map<UUID, User> users;
+    private Map<UUID, NetworkUser> networkUsers;
 
     @EventHandler(priority = EventPriority.NORMAL)
     public void onPlayerLogin(PlayerLoginEvent event) {
         Player player = event.getPlayer();
-        User user = Ebean.find(User.class)
+        NetworkUser networkUser = Ebean.find(NetworkUser.class)
                 .where()
                 .eq("UUID", player.getUniqueId().toString())
                 .findUnique();
 
-        if (user == null) {
-            user = new User();
-            user.setUUID(player.getUniqueId().toString());
-            user.setCoins(0);
+        if (networkUser == null) {
+            networkUser = new NetworkUser();
+            networkUser.setUUID(player.getUniqueId().toString());
+            networkUser.setCoins(0);
         }
     }
 
@@ -36,13 +36,13 @@ public class PlayerListener implements Listener {
         Player player = event.getPlayer();
     }
 
-    private void addUser(Player player, User user) {
-        users.put(player.getUniqueId(), user);
+    private void addUser(Player player, NetworkUser networkUser) {
+        networkUsers.put(player.getUniqueId(), networkUser);
     }
 
     private void removeUser(Player player) {
-        User user = users.remove(player.getUniqueId());
-        Ebean.save(user);
+        NetworkUser networkUser = networkUsers.remove(player.getUniqueId());
+        Ebean.save(networkUser);
     }
 
 }
