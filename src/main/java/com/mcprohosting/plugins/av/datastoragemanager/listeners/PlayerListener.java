@@ -9,12 +9,17 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
 public class PlayerListener implements Listener {
 
     private Map<UUID, NetworkUser> networkUsers;
+
+    public PlayerListener() {
+        networkUsers = new HashMap<>();
+    }
 
     @EventHandler(priority = EventPriority.NORMAL)
     public void onPlayerLogin(PlayerLoginEvent event) {
@@ -28,12 +33,16 @@ public class PlayerListener implements Listener {
             networkUser = new NetworkUser();
             networkUser.setUUID(player.getUniqueId().toString());
             networkUser.setCoins(0);
+
+            addUser(player, networkUser);
         }
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
     public void onPlayerQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
+
+        removeUser(player);
     }
 
     private void addUser(Player player, NetworkUser networkUser) {
