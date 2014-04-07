@@ -1,7 +1,9 @@
 package com.mcprohosting.plugins.av.datastoragemanager.listeners;
 
 import com.avaje.ebean.Ebean;
+import com.mcprohosting.plugins.av.datastoragemanager.DataStorageManager;
 import com.mcprohosting.plugins.av.datastoragemanager.beans.NetworkUser;
+import com.mcprohosting.plugins.av.datastoragemanager.beans.NetworkUserPreferences;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -31,11 +33,10 @@ public class PlayerListener implements Listener {
 
         if (networkUser == null) {
             networkUser = new NetworkUser();
-            networkUser.setUUID(player.getUniqueId().toString());
-            networkUser.setCoins(0);
-
-            addUser(player, networkUser);
         }
+
+        networkUser.init(player);
+        addUser(player, networkUser);
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
@@ -50,8 +51,8 @@ public class PlayerListener implements Listener {
     }
 
     private void removeUser(Player player) {
-        NetworkUser networkUser = networkUsers.remove(player.getUniqueId());
-        Ebean.save(networkUser);
+        NetworkUser user = networkUsers.remove(player.getUniqueId());
+        user.saveAll();
     }
 
 }

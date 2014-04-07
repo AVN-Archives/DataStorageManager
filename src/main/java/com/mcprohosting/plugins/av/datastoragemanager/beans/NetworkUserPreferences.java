@@ -1,31 +1,37 @@
 package com.mcprohosting.plugins.av.datastoragemanager.beans;
 
+import com.avaje.ebean.BeanState;
+import com.avaje.ebean.Ebean;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "network_user_preferences")
+@Table(name = "network_user_preferences", uniqueConstraints = {@UniqueConstraint(columnNames = {"network_user_id"})})
 @NoArgsConstructor
-public class NetworkUserPreferences {
+public class NetworkUserPreferences implements Serializable {
 
-    @OneToOne(optional = false)
-    @PrimaryKeyJoinColumn(name = "id", referencedColumnName = "id")
-    private NetworkUser networkUser;
+    public NetworkUserPreferences(NetworkUser user) {
+        setNetworkUser(user);
+    }
 
-    @Id
-    @Getter @Setter Integer id;
+    @OneToOne
+    @Getter @Setter NetworkUser networkUser;
 
     @Getter @Setter Boolean vanished;
 
     @Version
     @Getter @Setter Timestamp lastUpdate;
 
-    public NetworkUserPreferences(NetworkUser networkUser) {
-        this.networkUser = networkUser;
+    public void save() {
+        BeanState state = Ebean.getBeanState(this);
+        if (state.isNewOrDirty()) {
+            Ebean.save(this);
+        }
     }
 
 }
