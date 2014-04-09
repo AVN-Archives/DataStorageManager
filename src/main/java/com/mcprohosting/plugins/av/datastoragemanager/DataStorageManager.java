@@ -3,6 +3,7 @@ package com.mcprohosting.plugins.av.datastoragemanager;
 import com.avaje.ebean.Ebean;
 import com.avaje.ebean.SqlRow;
 import com.mcprohosting.plugins.av.datastoragemanager.beans.NetworkUser;
+import com.mcprohosting.plugins.av.datastoragemanager.beans.NetworkUserModeration;
 import com.mcprohosting.plugins.av.datastoragemanager.beans.NetworkUserPreferences;
 import com.mcprohosting.plugins.av.datastoragemanager.config.AvajeConfiguration;
 import com.mcprohosting.plugins.av.datastoragemanager.database.AvajeDatabase;
@@ -48,6 +49,7 @@ public class DataStorageManager extends JavaPlugin {
         List<Class<?>> result = new ArrayList<>();
         result.add(NetworkUser.class);
         result.add(NetworkUserPreferences.class);
+        result.add(NetworkUserModeration.class);
         return result;
     }
 

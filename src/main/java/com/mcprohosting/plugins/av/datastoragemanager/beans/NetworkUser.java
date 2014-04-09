@@ -3,7 +3,6 @@ package com.mcprohosting.plugins.av.datastoragemanager.beans;
 import com.avaje.ebean.BeanState;
 import com.avaje.ebean.Ebean;
 import com.avaje.ebean.annotation.CreatedTimestamp;
-import com.mcprohosting.plugins.av.datastoragemanager.DataStorageManager;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.entity.Player;
@@ -11,6 +10,8 @@ import org.bukkit.entity.Player;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.Collection;
+import java.util.HashSet;
 
 @Entity
 @Table(name = "network_users")
@@ -19,36 +20,48 @@ public class NetworkUser implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(unique = true)
-    @Getter @Setter Integer id;
+    @Getter @Setter private Integer id;
 
     @JoinTable(name = "network_user_preferences",
             joinColumns = {@JoinColumn(name = "id", referencedColumnName = "id", unique = true)})
-    @Getter @Setter NetworkUserPreferences preferences;
+    @Getter @Setter private NetworkUserPreferences preferences;
 
-    @Getter @Setter String UUID;
-    @Getter @Setter Integer coins;
+    @JoinTable(name = "network_user_moderation",
+            joinColumns = {@JoinColumn(name = "id", referencedColumnName = "id", unique = true)})
+    @Getter @Setter private NetworkUserModeration moderation;
+
+    @Getter @Setter private String UUID;
+    @Getter @Setter private int coins;
 
     @CreatedTimestamp
-    @Getter @Setter Timestamp joinTime;
+    @Getter @Setter private Timestamp joinTime;
 
     @Version
-    @Getter @Setter Timestamp lastUpdate;
+    @Getter @Setter private Timestamp lastUpdate;
 
     public void init(Player player) {
         if (id == null) {
             setUUID(player.getUniqueId().toString());
-            setCoins(0);
-
             save();
         }
 
+        Collection<Object> beans = new HashSet();
+
         preferences = Ebean.find(NetworkUserPreferences.class).where().eq("network_user_id", id.toString()).findUnique();
+        moderation = Ebean.find(NetworkUserModeration.class).where().eq("network_user_id", id.toString()).findUnique();
 
         if (preferences == null) {
             preferences = new NetworkUserPreferences(this);
-            preferences.setVanished(false);
+            beans.add(preferences);
+        }
 
-            preferences.save();
+        if (moderation == null) {
+            moderation = new NetworkUserModeration(this);
+            beans.add(preferences);
+        }
+
+        if (beans.size() > 0) {
+            Ebean.save(beans);
         }
     }
 
@@ -62,6 +75,7 @@ public class NetworkUser implements Serializable {
     public void saveAll() {
         save();
         preferences.save();
+        moderation.save();
     }
 
 }
