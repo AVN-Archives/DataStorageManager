@@ -4,6 +4,7 @@ import com.avaje.ebean.Ebean;
 import com.mcprohosting.plugins.av.datastoragemanager.DataStorageManager;
 import com.mcprohosting.plugins.av.datastoragemanager.beans.NetworkUser;
 import com.mcprohosting.plugins.av.datastoragemanager.beans.NetworkUserPreferences;
+import com.mcprohosting.plugins.av.datastoragemanager.beans.NetworkUserPurchase;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;

@@ -12,6 +12,7 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "network_users")
@@ -29,6 +30,10 @@ public class NetworkUser implements Serializable {
     @JoinTable(name = "network_user_moderation",
             joinColumns = {@JoinColumn(name = "id", referencedColumnName = "id", unique = true)})
     @Getter @Setter private NetworkUserModeration moderation;
+
+    @JoinTable(name = "network_user_purchases",
+            joinColumns = {@JoinColumn(name = "id", referencedColumnName = "id", unique = true)})
+    @Getter @Setter private Set<NetworkUserPurchase> purchases;
 
     @Getter @Setter private String UUID;
     @Getter @Setter private int coins;
@@ -49,6 +54,7 @@ public class NetworkUser implements Serializable {
 
         preferences = Ebean.find(NetworkUserPreferences.class).where().eq("network_user_id", id.toString()).findUnique();
         moderation = Ebean.find(NetworkUserModeration.class).where().eq("network_user_id", id.toString()).findUnique();
+        purchases = Ebean.find(NetworkUserPurchase.class).where().eq("network_user_id", id.toString()).findSet();
 
         if (preferences == null) {
             preferences = new NetworkUserPreferences(this);
@@ -58,6 +64,10 @@ public class NetworkUser implements Serializable {
         if (moderation == null) {
             moderation = new NetworkUserModeration(this);
             beans.add(preferences);
+        }
+
+        if (purchases == null) {
+            purchases = new HashSet<>();
         }
 
         if (beans.size() > 0) {
@@ -76,6 +86,10 @@ public class NetworkUser implements Serializable {
         save();
         preferences.save();
         moderation.save();
+
+        for (NetworkUserPurchase purchase : purchases) {
+            purchase.save();
+        }
     }
 
 }
