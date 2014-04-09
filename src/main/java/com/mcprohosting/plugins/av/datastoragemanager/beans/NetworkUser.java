@@ -23,23 +23,19 @@ public class NetworkUser implements Serializable {
     @Column(unique = true)
     @Getter @Setter private Integer id;
 
-    @JoinTable(name = "network_user_preferences",
-            joinColumns = {@JoinColumn(name = "id", referencedColumnName = "id", unique = true)})
     @Getter @Setter private NetworkUserPreferences preferences;
 
-    @JoinTable(name = "network_user_moderation",
-            joinColumns = {@JoinColumn(name = "id", referencedColumnName = "id", unique = true)})
     @Getter @Setter private NetworkUserModeration moderation;
 
-    @JoinTable(name = "network_user_purchases",
-            joinColumns = {@JoinColumn(name = "id", referencedColumnName = "id", unique = true)})
     @Getter @Setter private Set<NetworkUserPurchase> purchases;
+
+    @Getter @Setter private Set<NetworkUserAchievement> achievements;
 
     @Getter @Setter private String UUID;
     @Getter @Setter private int coins;
 
     @CreatedTimestamp
-    @Getter @Setter private Timestamp joinTime;
+    @Getter @Setter private Timestamp dateJoined;
 
     @Version
     @Getter @Setter private Timestamp lastUpdate;
@@ -55,6 +51,7 @@ public class NetworkUser implements Serializable {
         preferences = Ebean.find(NetworkUserPreferences.class).where().eq("network_user_id", id.toString()).findUnique();
         moderation = Ebean.find(NetworkUserModeration.class).where().eq("network_user_id", id.toString()).findUnique();
         purchases = Ebean.find(NetworkUserPurchase.class).where().eq("network_user_id", id.toString()).findSet();
+        achievements = Ebean.find(NetworkUserAchievement.class).where().eq("network_user_id", id.toString()).findSet();
 
         if (preferences == null) {
             preferences = new NetworkUserPreferences(this);
@@ -68,6 +65,10 @@ public class NetworkUser implements Serializable {
 
         if (purchases == null) {
             purchases = new HashSet<>();
+        }
+
+        if (achievements == null) {
+            achievements = new HashSet<>();
         }
 
         if (beans.size() > 0) {
@@ -84,11 +85,16 @@ public class NetworkUser implements Serializable {
 
     public void saveAll() {
         save();
+
         preferences.save();
         moderation.save();
 
         for (NetworkUserPurchase purchase : purchases) {
             purchase.save();
+        }
+
+        for (NetworkUserAchievement achievement : achievements) {
+            achievement.save();
         }
     }
 

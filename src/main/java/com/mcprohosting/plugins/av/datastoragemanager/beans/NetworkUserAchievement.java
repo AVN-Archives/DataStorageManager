@@ -11,28 +11,29 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "network_user_purchases", uniqueConstraints = {@UniqueConstraint(columnNames = {"id"})})
+@Table(name = "network_user_achievements", uniqueConstraints = {@UniqueConstraint(columnNames = {"id"})})
 @NoArgsConstructor
-public class NetworkUserPurchase {
+public class NetworkUserAchievement {
 
-    public NetworkUserPurchase(NetworkUser user) {
+    public NetworkUserAchievement(NetworkUser user, NetworkAchievement achievement) {
         setNetworkUser(user);
+        setNetworkAchievement(achievement);
 
-        user.getPurchases().add(this);
+        user.getAchievements().add(this);
     }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Getter @Setter private Integer id;
 
-    @ManyToOne(optional = false)
+    @ManyToOne
     @Getter @Setter private NetworkUser networkUser;
 
-    @Getter @Setter private String type;
-    @Getter @Setter private String data;
+    @ManyToOne
+    @Getter @Setter private NetworkAchievement networkAchievement;
 
     @CreatedTimestamp
-    @Getter @Setter private Timestamp datePurchased;
+    @Getter @Setter private Timestamp dateEarned;
 
     public void save() {
         BeanState state = Ebean.getBeanState(this);
@@ -40,4 +41,5 @@ public class NetworkUserPurchase {
             Ebean.save(this);
         }
     }
+
 }
