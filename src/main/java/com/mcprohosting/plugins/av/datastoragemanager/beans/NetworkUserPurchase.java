@@ -1,8 +1,8 @@
 package com.mcprohosting.plugins.av.datastoragemanager.beans;
 
 import com.avaje.ebean.BeanState;
-import com.avaje.ebean.Ebean;
 import com.avaje.ebean.annotation.CreatedTimestamp;
+import com.mcprohosting.plugins.av.datastoragemanager.DataStorageManager;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -35,9 +35,9 @@ public class NetworkUserPurchase {
     @Getter @Setter private Timestamp datePurchased;
 
     public void save() {
-        BeanState state = Ebean.getBeanState(this);
+        BeanState state = DataStorageManager.getAvajeDatabase().getServer().getBeanState(this);
         if (state.isNewOrDirty()) {
-            Ebean.save(this);
+            DataStorageManager.getAvajeDatabase().getServer().save(this);
         }
     }
 }

@@ -1,8 +1,8 @@
 package com.mcprohosting.plugins.av.datastoragemanager.beans;
 
 import com.avaje.ebean.BeanState;
-import com.avaje.ebean.Ebean;
 import com.avaje.ebean.annotation.CreatedTimestamp;
+import com.mcprohosting.plugins.av.datastoragemanager.DataStorageManager;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.entity.Player;
@@ -48,10 +48,10 @@ public class NetworkUser implements Serializable {
 
         Collection<Object> beans = new HashSet();
 
-        preferences = Ebean.find(NetworkUserPreferences.class).where().eq("network_user_id", id.toString()).findUnique();
-        moderation = Ebean.find(NetworkUserModeration.class).where().eq("network_user_id", id.toString()).findUnique();
-        purchases = Ebean.find(NetworkUserPurchase.class).where().eq("network_user_id", id.toString()).findSet();
-        achievements = Ebean.find(NetworkUserAchievement.class).where().eq("network_user_id", id.toString()).findSet();
+        preferences = DataStorageManager.getAvajeDatabase().getServer().find(NetworkUserPreferences.class).where().eq("network_user_id", id.toString()).findUnique();
+        moderation = DataStorageManager.getAvajeDatabase().getServer().find(NetworkUserModeration.class).where().eq("network_user_id", id.toString()).findUnique();
+        purchases = DataStorageManager.getAvajeDatabase().getServer().find(NetworkUserPurchase.class).where().eq("network_user_id", id.toString()).findSet();
+        achievements = DataStorageManager.getAvajeDatabase().getServer().find(NetworkUserAchievement.class).where().eq("network_user_id", id.toString()).findSet();
 
         if (preferences == null) {
             preferences = new NetworkUserPreferences(this);
@@ -72,14 +72,14 @@ public class NetworkUser implements Serializable {
         }
 
         if (beans.size() > 0) {
-            Ebean.save(beans);
+            DataStorageManager.getAvajeDatabase().getServer().save(beans);
         }
     }
 
     public void save() {
-        BeanState state = Ebean.getBeanState(this);
+        BeanState state = DataStorageManager.getAvajeDatabase().getServer().getBeanState(this);
         if (state.isNewOrDirty()) {
-            Ebean.save(this);
+            DataStorageManager.getAvajeDatabase().getServer().save(this);
         }
     }
 

@@ -1,6 +1,5 @@
 package com.mcprohosting.plugins.av.datastoragemanager;
 
-import com.avaje.ebean.Ebean;
 import com.avaje.ebean.SqlRow;
 import com.mcprohosting.plugins.av.datastoragemanager.beans.*;
 import com.mcprohosting.plugins.av.datastoragemanager.config.AvajeConfiguration;
@@ -31,7 +30,7 @@ public class DataStorageManager extends JavaPlugin {
         avajeDatabase = new AvajeDatabase(this, getClassLoader());
 
         String sql = "select count(*) as count from dual";
-        SqlRow row = Ebean.createSqlQuery(sql).findUnique();
+        SqlRow row = DataStorageManager.getAvajeDatabase().getServer().createSqlQuery(sql).findUnique();
 
         Integer i = row.getInteger("count");
 

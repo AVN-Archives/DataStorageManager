@@ -1,10 +1,7 @@
 package com.mcprohosting.plugins.av.datastoragemanager.listeners;
 
-import com.avaje.ebean.Ebean;
 import com.mcprohosting.plugins.av.datastoragemanager.DataStorageManager;
 import com.mcprohosting.plugins.av.datastoragemanager.beans.NetworkUser;
-import com.mcprohosting.plugins.av.datastoragemanager.beans.NetworkUserPreferences;
-import com.mcprohosting.plugins.av.datastoragemanager.beans.NetworkUserPurchase;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -27,7 +24,7 @@ public class PlayerListener implements Listener {
     @EventHandler(priority = EventPriority.NORMAL)
     public void onPlayerLogin(PlayerLoginEvent event) {
         Player player = event.getPlayer();
-        NetworkUser networkUser = Ebean.find(NetworkUser.class)
+        NetworkUser networkUser = DataStorageManager.getAvajeDatabase().getServer().find(NetworkUser.class)
                 .where()
                 .eq("UUID", player.getUniqueId().toString())
                 .findUnique();

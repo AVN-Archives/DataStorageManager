@@ -11,8 +11,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class AvajeDatabase {
 
-    @Getter private ServerConfig config;
-    @Getter private EbeanServer server;
+    @Getter EbeanServer server;
 
     public AvajeDatabase(JavaPlugin plugin, ClassLoader classLoader) {
         if (classLoader == null) {
@@ -23,8 +22,8 @@ public class AvajeDatabase {
     }
 
     private void init(JavaPlugin plugin, ClassLoader classLoader) {
-        config = new ServerConfig();
-        config.setName("AntVenom-DataStorageManager");
+        ServerConfig config = new ServerConfig();
+        config.setName(plugin.getName());
         config.setDataSourceConfig(constructDataSourceConfig());
         config.setClasses(plugin.getDatabaseClasses());
 
