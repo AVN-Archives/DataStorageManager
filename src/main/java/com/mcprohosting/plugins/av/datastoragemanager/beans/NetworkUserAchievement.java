@@ -8,12 +8,13 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 @Entity
 @Table(name = "network_user_achievements", uniqueConstraints = {@UniqueConstraint(columnNames = {"id"})})
 @NoArgsConstructor
-public class NetworkUserAchievement {
+public class NetworkUserAchievement implements Serializable {
 
     public NetworkUserAchievement(NetworkUser user, NetworkAchievement achievement) {
         setNetworkUser(user);

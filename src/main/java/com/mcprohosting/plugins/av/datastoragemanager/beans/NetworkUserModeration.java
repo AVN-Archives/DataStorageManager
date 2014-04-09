@@ -7,12 +7,13 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 @Entity
 @Table(name = "network_user_moderation", uniqueConstraints = {@UniqueConstraint(columnNames = {"network_user_id"})})
 @NoArgsConstructor
-public class NetworkUserModeration {
+public class NetworkUserModeration implements Serializable {
 
     public NetworkUserModeration(NetworkUser user) {
         setNetworkUser(user);

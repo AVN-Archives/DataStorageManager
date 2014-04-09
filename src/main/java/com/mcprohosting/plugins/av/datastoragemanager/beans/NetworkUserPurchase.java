@@ -8,12 +8,13 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 @Entity
 @Table(name = "network_user_purchases", uniqueConstraints = {@UniqueConstraint(columnNames = {"id"})})
 @NoArgsConstructor
-public class NetworkUserPurchase {
+public class NetworkUserPurchase implements Serializable{
 
     public NetworkUserPurchase(NetworkUser user) {
         setNetworkUser(user);
