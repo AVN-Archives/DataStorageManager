@@ -2,6 +2,7 @@ package com.mcprohosting.plugins.av.datastoragemanager.api;
 
 import com.mcprohosting.plugins.av.datastoragemanager.beans.NetworkUser;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,6 +32,26 @@ public class DataAPI {
     public static void removeUser(String uuid) {
         NetworkUser user = users.remove(uuid);
         user.saveAll();
+    }
+
+    /**
+     * Get a user with the specified uuid
+     *
+     * @param uuid the uuid of the user
+     *
+     * @return the network user ebean mapped to the specified uuid
+     */
+    public static NetworkUser getUser(String uuid) {
+        return users.get(uuid);
+    }
+
+    /**
+     * Get all network user ebeans as a collection
+     *
+     * @return collection of network user ebeans
+     */
+    public static Collection<NetworkUser> getUsers() {
+        return users.values();
     }
 
 }
