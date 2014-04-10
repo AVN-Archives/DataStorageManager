@@ -54,4 +54,19 @@ public class DataAPI {
         return users.values();
     }
 
+    /**
+     * Save a users data. If a bean is dirty (contains changes) or is new
+     * it will be saved to the database.
+     *
+     * @param user the network user ebean of the user
+     * @param saveAll save all data beans of this network user if true, otherwise save only the network user bean
+     */
+    public static void saveUser(NetworkUser user, boolean saveAll) {
+        if (saveAll) {
+            user.saveAll();
+        } else {
+            user.save();
+        }
+    }
+
 }
