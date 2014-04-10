@@ -1,6 +1,7 @@
 package com.mcprohosting.plugins.av.datastoragemanager.listeners;
 
 import com.mcprohosting.plugins.av.datastoragemanager.DataStorageManager;
+import com.mcprohosting.plugins.av.datastoragemanager.api.DataAPI;
 import com.mcprohosting.plugins.av.datastoragemanager.beans.NetworkUser;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -34,23 +35,14 @@ public class PlayerListener implements Listener {
         }
 
         networkUser.init(player);
-        addUser(player, networkUser);
+        DataAPI.addUser(player.getUniqueId().toString(), networkUser);
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
     public void onPlayerQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
 
-        removeUser(player);
-    }
-
-    private void addUser(Player player, NetworkUser networkUser) {
-        networkUsers.put(player.getUniqueId(), networkUser);
-    }
-
-    private void removeUser(Player player) {
-        NetworkUser user = networkUsers.remove(player.getUniqueId());
-        user.saveAll();
+        DataAPI.removeUser(player.getUniqueId().toString());
     }
 
 }
