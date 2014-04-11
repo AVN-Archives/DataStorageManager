@@ -69,4 +69,43 @@ public class DataAPI {
         }
     }
 
+    /**
+     * Save all of a users data. If a bean is dirty (contains changes) or is new
+     * it will be saved to the database.
+     *
+     * @param user the network user ebean of the user
+     */
+    public static void saveAll(NetworkUser user) {
+        user.saveAll();
+    }
+
+    /**
+     * Save a collection of users. If a bean is dirty (contains changes) or is new
+     * it will be saved to the database.
+     *
+     * @param users a collection of network users
+     * @param saveAll save all data beans of this network user if true, otherwise save only the network user bean
+     */
+    public static void saveMany(Collection<NetworkUser> users, boolean saveAll) {
+        for (NetworkUser user : users) {
+            if (saveAll) {
+                user.saveAll();
+            } else {
+                user.save();
+            }
+        }
+    }
+
+    /**
+     * Save all data of a collection of users. If a bean is dirty (contains changes) or is new
+     * it will be saved to the database.
+     *
+     * @param users a collection of network users
+     */
+    public static void saveAllMany(Collection<NetworkUser> users) {
+        for (NetworkUser user : users) {
+            user.saveAll();
+        }
+    }
+
 }
