@@ -1,6 +1,7 @@
 package com.mcprohosting.plugins.av.datastoragemanager.api;
 
 import com.mcprohosting.plugins.av.datastoragemanager.beans.NetworkUser;
+import com.mcprohosting.plugins.av.datastoragemanager.beans.NetworkUserPurchase;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -105,6 +106,24 @@ public class DataAPI {
     public static void saveAllMany(Collection<NetworkUser> users) {
         for (NetworkUser user : users) {
             user.saveAll();
+        }
+    }
+
+    /**
+     * Create a transaction and optionally save the purchase immediately.
+     *
+     * @param user the ebean of the user
+     * @param type the type (or category) of the transaction
+     * @param data the data of the purchase as a string
+     * @param save whether the purchase should be saved now or later
+     */
+    public static void createTransaction(NetworkUser user, String type, String data, boolean save) {
+        NetworkUserPurchase purchase = new NetworkUserPurchase(user);
+        purchase.setType(type);
+        purchase.setData(data);
+
+        if (save) {
+            purchase.save();
         }
     }
 
