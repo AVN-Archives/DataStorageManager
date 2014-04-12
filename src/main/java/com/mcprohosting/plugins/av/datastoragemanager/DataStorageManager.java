@@ -37,7 +37,9 @@ public class DataStorageManager extends JavaPlugin {
 
         getLogger().info("Got " + i + " - DataSource good.");
 
-        postloadSQL();
+        if (i != null) {
+            postloadSQL();
+        }
     }
 
     public void postloadSQL() {
