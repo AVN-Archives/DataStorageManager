@@ -23,8 +23,8 @@ public class AvajeConfiguration extends ConfigModel {
         }
     }
 
-    public boolean ebean_ddl_generate = false;
-    public boolean ebean_ddl_run = false;
+    public boolean ebean_ddl_generate = true;
+    public boolean ebean_ddl_run = true;
     public boolean ebean_debug_sql = true;
     public boolean ebean_debug_lazyload = false;
 

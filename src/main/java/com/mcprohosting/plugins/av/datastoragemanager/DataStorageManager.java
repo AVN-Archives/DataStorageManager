@@ -7,6 +7,7 @@ import com.mcprohosting.plugins.av.datastoragemanager.database.AvajeDatabase;
 import com.mcprohosting.plugins.av.datastoragemanager.listeners.PlayerListener;
 import lombok.Getter;
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
@@ -35,6 +36,17 @@ public class DataStorageManager extends JavaPlugin {
         Integer i = row.getInteger("count");
 
         getLogger().info("Got " + i + " - DataSource good.");
+
+        postloadSQL();
+    }
+
+    public void postloadSQL() {
+        if (avajeConfiguration.ebean_ddl_generate || avajeConfiguration.ebean_ddl_run) {
+            avajeConfiguration.ebean_ddl_generate = false;
+            avajeConfiguration.ebean_ddl_run = false;
+
+            saveConfiguration();
+        }
     }
 
     public void registerListeners() {
@@ -51,6 +63,14 @@ public class DataStorageManager extends JavaPlugin {
         result.add(NetworkUserPurchase.class);
         result.add(NetworkUserAchievement.class);
         return result;
+    }
+
+    public void saveConfiguration() {
+        try {
+            avajeConfiguration.save();
+        } catch (InvalidConfigurationException e) {
+            getLogger().warning("Failed to save the config!");
+        }
     }
 
 }
