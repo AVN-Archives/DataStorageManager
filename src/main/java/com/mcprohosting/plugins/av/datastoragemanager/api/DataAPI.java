@@ -32,7 +32,6 @@ public class DataAPI {
      */
     public static void removeUser(String uuid) {
         NetworkUser user = users.remove(uuid);
-        user.saveAll();
     }
 
     /**
