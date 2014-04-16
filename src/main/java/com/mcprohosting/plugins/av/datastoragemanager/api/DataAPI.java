@@ -4,6 +4,7 @@ import com.gmail.favorlock.commonutils.network.UUIDFetcher;
 import com.mcprohosting.plugins.av.datastoragemanager.DataStorageManager;
 import com.mcprohosting.plugins.av.datastoragemanager.beans.NetworkUser;
 import com.mcprohosting.plugins.av.datastoragemanager.beans.NetworkUserPurchase;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.*;
@@ -55,8 +56,6 @@ public class DataAPI {
         if (storeUser) {
             DataAPI.addUser(uuid, user);
         }
-
-
 
         return user;
     }
@@ -170,6 +169,10 @@ public class DataAPI {
      * @return uuid of the player, will return null if not found
      */
     public static String getPlayerUUID(String name) {
+        if (Bukkit.getPlayer(name) != null) {
+            return users.get(name).getUUID();
+        }
+
         UUIDFetcher fetcher = new UUIDFetcher(Arrays.asList(name));
 
         Map<String, UUID> response = null;
