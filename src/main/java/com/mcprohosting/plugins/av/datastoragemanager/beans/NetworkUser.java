@@ -40,9 +40,9 @@ public class NetworkUser implements Serializable {
     @Version
     @Getter @Setter private Timestamp lastUpdate;
 
-    public void init(Player player) {
+    public void init(String uuid) {
         if (id == null) {
-            setUUID(player.getUniqueId().toString());
+            setUUID(uuid);
             save();
         }
 

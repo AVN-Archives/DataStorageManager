@@ -6,7 +6,7 @@
 
     <groupId>com.mcprohosting.plugins</groupId>
     <artifactId>AntVenom-DataStorageManager</artifactId>
-    <version>0.0.5-SNAPSHOT</version>
+    <version>0.0.6-SNAPSHOT</version>
 
     <profiles>
         <profile>
@@ -93,7 +93,7 @@
         <dependency>
             <groupId>com.gmail.favorlock</groupId>
             <artifactId>CommonUtils</artifactId>
-            <version>0.2.5-SNAPSHOT</version>
+            <version>0.2.6-SNAPSHOT</version>
         </dependency>
 
         <dependency>

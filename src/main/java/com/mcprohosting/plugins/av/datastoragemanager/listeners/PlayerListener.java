@@ -27,22 +27,22 @@ public class PlayerListener implements Listener {
         Player player = event.getPlayer();
         NetworkUser networkUser = DataStorageManager.getAvajeDatabase().getServer().find(NetworkUser.class)
                 .where()
-                .eq("UUID", player.getUniqueId().toString())
+                .eq("UUID", DataAPI.getPlayerUUID(player.getName()))
                 .findUnique();
 
         if (networkUser == null) {
             networkUser = new NetworkUser();
         }
 
-        networkUser.init(player);
-        DataAPI.addUser(player.getUniqueId().toString(), networkUser);
+        networkUser.init(DataAPI.getPlayerUUID(player.getName()));
+        DataAPI.addUser(DataAPI.getPlayerUUID(player.getName()), networkUser);
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
     public void onPlayerQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
 
-        DataAPI.removeUser(player.getUniqueId().toString());
+        DataAPI.removeUser(DataAPI.getPlayerUUID(player.getName()));
     }
 
 }

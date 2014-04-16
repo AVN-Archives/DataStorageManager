@@ -1,13 +1,12 @@
 package com.mcprohosting.plugins.av.datastoragemanager.api;
 
+import com.gmail.favorlock.commonutils.network.UUIDFetcher;
 import com.mcprohosting.plugins.av.datastoragemanager.DataStorageManager;
 import com.mcprohosting.plugins.av.datastoragemanager.beans.NetworkUser;
 import com.mcprohosting.plugins.av.datastoragemanager.beans.NetworkUserPurchase;
 import org.bukkit.entity.Player;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class DataAPI {
 
@@ -29,33 +28,35 @@ public class DataAPI {
 
     /**
      * Retrieve a network user instance from the users map if it exists,
-     * otherwise retrieve the player instance from the database and
+     * otherwise retrieve the user instance from the database and
      * optionally store the network user into the user map.
      *
-     * @param player the player
+     * @param uuid the uuid of the user
      * @param storeUser store the user into the user map if true
      *
      * @return NetworkUser instance
      */
-    public static NetworkUser retrieveUser(Player player, boolean storeUser) {
-        if (users.containsKey(player.getUniqueId().toString())) {
-            return users.get(player.getUniqueId().toString());
+    public static NetworkUser retrieveUser(String uuid, boolean storeUser) {
+        if (users.containsKey(uuid)) {
+            return users.get(uuid);
         }
 
         NetworkUser user = DataStorageManager.getAvajeDatabase().getServer().find(NetworkUser.class)
                 .where()
-                .eq("UUID", player.getUniqueId().toString())
+                .eq("UUID", uuid)
                 .findUnique();
 
         if (user == null) {
             user = new NetworkUser();
         }
 
-        user.init(player);
+        user.init(uuid);
 
         if (storeUser) {
-            DataAPI.addUser(player.getUniqueId().toString(), user);
+            DataAPI.addUser(uuid, user);
         }
+
+
 
         return user;
     }
@@ -159,6 +160,31 @@ public class DataAPI {
         if (save) {
             purchase.save();
         }
+    }
+
+    /**
+     * Gets the UUID of a player.
+     *
+     * @param name of the player
+     *
+     * @return uuid of the player, will return null if not found
+     */
+    public static String getPlayerUUID(String name) {
+        UUIDFetcher fetcher = new UUIDFetcher(Arrays.asList(name));
+
+        Map<String, UUID> response = null;
+        try {
+            response = fetcher.call();
+        } catch (Exception e) {
+            DataStorageManager.getInstance().getLogger().warning("Exception while running UUIDFetcher");
+            e.printStackTrace();
+        }
+
+        if (response.get(name) == null) {
+            return null;
+        }
+
+        return response.get(name).toString();
     }
 
 }
