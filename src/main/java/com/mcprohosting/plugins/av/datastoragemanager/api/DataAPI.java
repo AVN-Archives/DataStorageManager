@@ -169,10 +169,6 @@ public class DataAPI {
      * @return uuid of the player, will return null if not found
      */
     public static String getPlayerUUID(String name) {
-        if (Bukkit.getPlayer(name) != null) {
-            return users.get(name).getUUID();
-        }
-
         UUIDFetcher fetcher = new UUIDFetcher(Arrays.asList(name));
 
         Map<String, UUID> response = null;
