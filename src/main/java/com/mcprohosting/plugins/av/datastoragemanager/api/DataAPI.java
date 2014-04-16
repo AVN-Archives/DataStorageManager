@@ -1,7 +1,9 @@
 package com.mcprohosting.plugins.av.datastoragemanager.api;
 
+import com.mcprohosting.plugins.av.datastoragemanager.DataStorageManager;
 import com.mcprohosting.plugins.av.datastoragemanager.beans.NetworkUser;
 import com.mcprohosting.plugins.av.datastoragemanager.beans.NetworkUserPurchase;
+import org.bukkit.entity.Player;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -23,6 +25,39 @@ public class DataAPI {
      */
     public static void addUser(String uuid, NetworkUser user) {
         users.put(uuid, user);
+    }
+
+    /**
+     * Retrieve a network user instance from the users map if it exists,
+     * otherwise retrieve the player instance from the database and
+     * optionally store the network user into the user map.
+     *
+     * @param player the player
+     * @param storeUser store the user into the user map if true
+     *
+     * @return NetworkUser instance
+     */
+    public static NetworkUser retrieveUser(Player player, boolean storeUser) {
+        if (users.containsKey(player.getUniqueId().toString())) {
+            return users.get(player.getUniqueId().toString());
+        }
+
+        NetworkUser user = DataStorageManager.getAvajeDatabase().getServer().find(NetworkUser.class)
+                .where()
+                .eq("UUID", player.getUniqueId().toString())
+                .findUnique();
+
+        if (user == null) {
+            user = new NetworkUser();
+        }
+
+        user.init(player);
+
+        if (storeUser) {
+            DataAPI.addUser(player.getUniqueId().toString(), user);
+        }
+
+        return user;
     }
 
     /**
