@@ -17,6 +17,8 @@ import java.util.Properties;
 import java.util.Set;
 
 public class MongoResource {
+    private static MongoResource instance;
+
     private MongoClient mongoClient;
     private Properties properties;
 
@@ -75,12 +77,16 @@ public class MongoResource {
         return null;
     }
 
-    public Datastore getDatastore(String dbName) {
+    public Datastore getDatastore() {
         Datastore datastore;
 
         datastore = new Morphia((Set) new HashSet<Class<?>>(DataStorageManager.getInstance().getDatabaseClasses())).
-                createDatastore(mongoClient, dbName);
+                createDatastore(mongoClient, "antvenomnetwork");
 
         return datastore;
+    }
+
+    public static MongoResource getInstance() {
+        return instance;
     }
 }
