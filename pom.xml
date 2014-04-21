@@ -61,26 +61,6 @@
                     <showDeprecation>true</showDeprecation>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.avaje.ebeanorm</groupId>
-                <artifactId>avaje-ebeanorm-mavenenhancer</artifactId>
-                <version>3.2.2</version>
-                <executions>
-                    <execution>
-                        <id>main</id>
-                        <phase>process-classes</phase>
-                        <goals>
-                            <goal>enhance</goal>
-                        </goals>
-                        <configuration>
-                            <packages>com.mcprohosting.plugins.av.datastoragemanager.beans</packages>
-                            <transformArgs>debug=0;transientInternalFields=true</transformArgs>
-                            <classSource>${project.build.outputDirectory}</classSource>
-                            <classDestination>${project.build.outputDirectory}</classDestination>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
     </build>
 
