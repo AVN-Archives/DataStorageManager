@@ -17,8 +17,6 @@ import java.util.Properties;
 import java.util.Set;
 
 public class MongoResource {
-    private static MongoResource instance;
-
     private MongoClient mongoClient;
     private Properties properties;
 
@@ -42,7 +40,7 @@ public class MongoResource {
         }
     }
 
-    private static Properties loadProperties() throws IOException {
+    private Properties loadProperties() throws IOException {
         Properties properties = new Properties();
         InputStream inputStream = DataStorageManager.getInstance().getResource("mongodb.properties");
 
@@ -84,9 +82,5 @@ public class MongoResource {
                 createDatastore(mongoClient, "antvenomnetwork");
 
         return datastore;
-    }
-
-    public static MongoResource getInstance() {
-        return instance;
     }
 }
