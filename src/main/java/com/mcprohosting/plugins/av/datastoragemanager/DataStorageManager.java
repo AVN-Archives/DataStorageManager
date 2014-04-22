@@ -2,6 +2,8 @@ package com.mcprohosting.plugins.av.datastoragemanager;
 
 import com.mcprohosting.plugins.av.datastoragemanager.database.DAOManager;
 import com.mcprohosting.plugins.av.datastoragemanager.database.MongoResource;
+import com.mcprohosting.plugins.av.datastoragemanager.listeners.PlayerListener;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class DataStorageManager extends JavaPlugin {
@@ -14,6 +16,12 @@ public class DataStorageManager extends JavaPlugin {
         instance = this;
         mongoResource = new MongoResource();
         daoManager = new DAOManager(mongoResource);
+
+        registerListeners();
+    }
+
+    public void registerListeners() {
+        Bukkit.getPluginManager().registerEvents(new PlayerListener(), this);
     }
 
     public static DataStorageManager getInstance() {
