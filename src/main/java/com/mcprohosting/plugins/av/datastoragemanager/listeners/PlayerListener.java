@@ -22,7 +22,7 @@ public class PlayerListener implements Listener {
         DataStorageManager.getInstance().getLogger().info("Processing Time: " + (System.currentTimeMillis() - start) + "ms");
     }
 
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
         DataAPI.getMappedUsers().remove(player.getUniqueId());
