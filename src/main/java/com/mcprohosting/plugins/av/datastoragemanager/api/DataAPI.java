@@ -1,5 +1,6 @@
 package com.mcprohosting.plugins.av.datastoragemanager.api;
 
+import com.mcprohosting.plugins.av.datastoragemanager.DataStorageManager;
 import com.mcprohosting.plugins.av.datastoragemanager.database.DAOManager;
 import com.mcprohosting.plugins.av.datastoragemanager.database.models.NetworkUser;
 import com.mcprohosting.plugins.av.datastoragemanager.database.models.NetworkUserPurchase;
@@ -42,10 +43,6 @@ public class DataAPI {
         }
 
         NetworkUser user = DAOManager.getNetworkUserDAO().findOne("uuid", uuid);
-
-        if (user == null) {
-            user = new NetworkUser();
-        }
 
         if (user == null) {
             user = new NetworkUser(uuid);
