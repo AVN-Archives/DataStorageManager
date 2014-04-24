@@ -4,12 +4,11 @@ import com.mcprohosting.plugins.av.datastoragemanager.DataStorageManager;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoCredential;
 import com.mongodb.ServerAddress;
+import org.bukkit.Bukkit;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.UnknownHostException;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -42,7 +41,7 @@ public class MongoResource {
 
     private Properties loadProperties() throws IOException {
         Properties properties = new Properties();
-        InputStream inputStream = DataStorageManager.getInstance().getResource("mongodb.properties");
+        InputStream inputStream = new FileInputStream(new File(DataStorageManager.getInstance().getDataFolder(), "mongodb.properties"));
 
         if (inputStream == null) {
             throw new FileNotFoundException("Unable to load mongodb.properties!");
