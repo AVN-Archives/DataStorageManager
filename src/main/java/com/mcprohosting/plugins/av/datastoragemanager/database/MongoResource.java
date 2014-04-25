@@ -56,7 +56,8 @@ public class MongoResource {
             if (!properties.getProperty("username").isEmpty() &&
                     !properties.getProperty("password").isEmpty()) {
                 MongoCredential credential = MongoCredential.createMongoCRCredential(
-                        properties.getProperty("username"), "antvenomnetwork",
+                        properties.getProperty("username"),
+                        getDatabase(properties),
                         properties.getProperty("password").toCharArray()
                 );
                 return new MongoClient(new ServerAddress(
@@ -78,8 +79,16 @@ public class MongoResource {
         Datastore datastore;
 
         datastore = new Morphia((Set) new HashSet<Class<?>>(DataStorageManager.getInstance().getDatabaseClasses())).
-                createDatastore(mongoClient, "antvenomnetwork");
+                createDatastore(mongoClient, getDatabase(properties));
+        if (!properties.getProperty("username").isEmpty() &&
+                !properties.getProperty("password").isEmpty()) {
+            datastore.getDB().authenticateCommand(properties.getProperty("username"), properties.getProperty("password").toCharArray());
+        }
 
         return datastore;
+    }
+
+    public static String getDatabase(Properties properties) {
+        return properties.getProperty("database").isEmpty() ? "antvenomnetwork" : properties.getProperty("database");
     }
 }
