@@ -1,6 +1,5 @@
 package com.mcprohosting.plugins.av.datastoragemanager.api;
 
-import com.mcprohosting.plugins.av.datastoragemanager.DataStorageManager;
 import com.mcprohosting.plugins.av.datastoragemanager.database.DAOManager;
 import com.mcprohosting.plugins.av.datastoragemanager.database.models.NetworkUser;
 import com.mcprohosting.plugins.av.datastoragemanager.database.models.NetworkUserPurchase;
@@ -8,6 +7,8 @@ import com.mcprohosting.plugins.av.datastoragemanager.database.models.NetworkUse
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
+import java.util.Map.Entry;
 
 public class DataAPI {
 
@@ -126,8 +127,13 @@ public class DataAPI {
         }
     }
 
-    public static Map<String, NetworkUser> getMappedUsers() {
-        return users;
+    /**
+     * Get entries of all users.
+     *
+     * @return user entry set
+     */
+    public static Set<Entry<String, NetworkUser>> getUserEntries() {
+        return users.entrySet();
     }
 
 }
