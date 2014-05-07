@@ -2,17 +2,16 @@ package com.mcprohosting.plugins.av.datastoragemanager.util;
 
 import com.mcprohosting.plugins.av.datastoragemanager.database.DAOManager;
 import com.mcprohosting.plugins.av.datastoragemanager.database.models.NetworkUser;
-import org.bukkit.entity.Player;
 
 public class DataUtil {
 
-    public static void updateNetworkUser(NetworkUser user, Player player) {
-        if (user.getName().equalsIgnoreCase(player.getName()) == false) {
-            user.setName(player.getName());
+    public static void updateNetworkUser(NetworkUser user, String name, String ip) {
+        if (user.getName() == null || user.getName().equalsIgnoreCase(name) == false) {
+            user.setName(name);
         }
 
-        if (user.getIp().equalsIgnoreCase(player.getAddress().getAddress().getHostAddress()) == false) {
-            user.setIp(player.getAddress().getAddress().getHostAddress());
+        if (user.getIp() == null || user.getIp().equalsIgnoreCase(ip) == false) {
+            user.setIp(ip);
         }
 
         DAOManager.getNetworkUserDAO().save(user);

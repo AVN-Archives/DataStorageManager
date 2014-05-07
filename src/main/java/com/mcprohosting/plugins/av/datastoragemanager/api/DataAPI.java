@@ -79,12 +79,12 @@ public class DataAPI {
     /**
      * Initializes a network user instance for an online player.
      *
-     * @param player player instance of the user
+     * @param name the name of the user
+     * @param uuid the uuid of the user
+     * @param ip the ip of the user
      * @return Networkuser instance
      */
-    public static NetworkUser initUser(Player player) {
-        String uuid = player.getUniqueId().toString();
-
+    public static NetworkUser initUser(String uuid, String name, String ip) {
         if (users.containsKey(uuid)) {
             return users.get(uuid);
         }
@@ -95,7 +95,7 @@ public class DataAPI {
             user = new NetworkUser(uuid);
         }
 
-        DataUtil.updateNetworkUser(user, player);
+        DataUtil.updateNetworkUser(user, name, ip);
         DataAPI.addUser(user);
 
         return user;
