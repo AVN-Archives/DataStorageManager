@@ -16,6 +16,8 @@ public class NetworkUser {
 
     public NetworkUser(String uuid) {
         this.uuid = uuid;
+        this.name = "";
+        this.ip = "";
         this.networkUserPreferences = new NetworkUserPreferences();
         this.networkUserModeration = new NetworkUserModeration();
     }
@@ -27,6 +29,13 @@ public class NetworkUser {
     @Indexed(value = IndexDirection.ASC, name = "uuid", unique = true)
     @Getter
     private String uuid;
+
+    @Indexed(value = IndexDirection.ASC, name = "name")
+    @Getter @Setter
+    private String name;
+
+    @Getter @Setter
+    private String ip;
 
     @Getter @Setter
     private int coins;

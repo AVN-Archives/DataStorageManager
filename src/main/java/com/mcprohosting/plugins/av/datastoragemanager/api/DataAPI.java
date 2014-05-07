@@ -3,6 +3,8 @@ package com.mcprohosting.plugins.av.datastoragemanager.api;
 import com.mcprohosting.plugins.av.datastoragemanager.database.DAOManager;
 import com.mcprohosting.plugins.av.datastoragemanager.database.models.NetworkUser;
 import com.mcprohosting.plugins.av.datastoragemanager.database.models.NetworkUserPurchase;
+import com.mcprohosting.plugins.av.datastoragemanager.util.DataUtil;
+import org.bukkit.entity.Player;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -21,11 +23,10 @@ public class DataAPI {
     /**
      * Add a user to the users map
      *
-     * @param uuid the uuid of the user
      * @param user the ebean of the user
      */
-    public static void addUser(String uuid, NetworkUser user) {
-        users.put(uuid, user);
+    public static void addUser(NetworkUser user) {
+        users.put(user.getUuid(), user);
     }
 
     /**
@@ -46,13 +47,56 @@ public class DataAPI {
         NetworkUser user = DAOManager.getNetworkUserDAO().findOne("uuid", uuid);
 
         if (user == null) {
-            user = new NetworkUser(uuid);
-            DAOManager.getNetworkUserDAO().save(user);
+            return null;
         }
 
         if (storeUser) {
-            DataAPI.addUser(uuid, user);
+            DataAPI.addUser(user);
         }
+
+        return user;
+    }
+
+    /**
+     * Retrieve a network user instance from the users map by name if it exists,
+     * otherwise retrieve the user instance from the database.
+     *
+     * @param name the name of the user
+     * @return NetworkUser instance
+     */
+    public static NetworkUser retrieveUserByName(String name) {
+        for (NetworkUser user : users.values()) {
+            if (user.getName().equalsIgnoreCase(name)) {
+                return user;
+            }
+        }
+
+        NetworkUser user = DAOManager.getNetworkUserDAO().findOne("name", name);
+
+        return user;
+    }
+
+    /**
+     * Initializes a network user instance for an online player.
+     *
+     * @param player player instance of the user
+     * @return Networkuser instance
+     */
+    public static NetworkUser initUser(Player player) {
+        String uuid = player.getUniqueId().toString();
+
+        if (users.containsKey(uuid)) {
+            return users.get(uuid);
+        }
+
+        NetworkUser user = DAOManager.getNetworkUserDAO().findOne("uuid", uuid);
+
+        if (user == null) {
+            user = new NetworkUser(uuid);
+        }
+
+        DataUtil.updateNetworkUser(user, player);
+        DataAPI.addUser(user);
 
         return user;
     }

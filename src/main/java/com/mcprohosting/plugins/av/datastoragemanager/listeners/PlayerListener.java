@@ -17,7 +17,7 @@ public class PlayerListener implements Listener {
         Long start = System.currentTimeMillis();
 
         Player player = event.getPlayer();
-        NetworkUser user = DataAPI.retrieveUser(player.getUniqueId().toString(), true);
+        NetworkUser user = DataAPI.initUser(player);
 
         DataStorageManager.getInstance().getLogger().info("Processing Time: " + (System.currentTimeMillis() - start) + "ms");
     }
