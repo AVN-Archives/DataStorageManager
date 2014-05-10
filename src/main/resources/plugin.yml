@@ -4,4 +4,5 @@ authors: [MCProHosting]
 main: com.mcprohosting.plugins.av.datastoragemanager.DataStorageManager
 
 commands:
+  db:
 permissions:

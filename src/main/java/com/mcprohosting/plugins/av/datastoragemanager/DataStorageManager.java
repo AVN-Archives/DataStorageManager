@@ -1,5 +1,7 @@
 package com.mcprohosting.plugins.av.datastoragemanager;
 
+import com.gmail.favorlock.commonutils.command.CommandController;
+import com.mcprohosting.plugins.av.datastoragemanager.commands.DBCommand;
 import com.mcprohosting.plugins.av.datastoragemanager.database.DAOManager;
 import com.mcprohosting.plugins.av.datastoragemanager.database.MongoResource;
 import com.mcprohosting.plugins.av.datastoragemanager.listeners.PlayerListener;
@@ -17,7 +19,12 @@ public class DataStorageManager extends JavaPlugin {
         mongoResource = new MongoResource();
         daoManager = new DAOManager(mongoResource);
 
+        registerCommands();
         registerListeners();
+    }
+
+    public void registerCommands() {
+        CommandController.registerCommands(this, new DBCommand());
     }
 
     public void registerListeners() {
