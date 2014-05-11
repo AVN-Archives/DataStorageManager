@@ -53,7 +53,7 @@ public class DBCommand {
             }
 
             DataAPI.saveUser(user);
-            sender.sendMessage(FontFormat.translateString(FontFormat.translateString("&aUpdate &6") + name + "'s &acoins!"));
+            sender.sendMessage(FontFormat.translateString("&aUpdated &6" + name + "'s &acoins!"));
         } catch (NumberFormatException e) {
             sender.sendMessage(FontFormat.translateString("&cYou must specify a valid integer for coins!"));
             return;
@@ -91,6 +91,7 @@ public class DBCommand {
         }
 
         DataAPI.saveUser(user);
+        sender.sendMessage(FontFormat.translateString("&aRank Updated!"));
     }
 
 }
