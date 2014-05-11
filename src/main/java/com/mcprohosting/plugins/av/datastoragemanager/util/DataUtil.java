@@ -17,4 +17,10 @@ public class DataUtil {
         DAOManager.getNetworkUserDAO().save(user);
     }
 
+    public static void validate(NetworkUser user) {
+        if (user.getRank() == null) {
+            user.setRank("DEFAULT");
+        }
+    }
+
 }

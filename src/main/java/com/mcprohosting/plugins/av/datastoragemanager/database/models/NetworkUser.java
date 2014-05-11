@@ -18,6 +18,7 @@ public class NetworkUser {
         this.uuid = uuid;
         this.name = "";
         this.ip = "";
+        this.rank = "DEFAULT";
         this.networkUserPreferences = new NetworkUserPreferences();
         this.networkUserModeration = new NetworkUserModeration();
     }
@@ -36,6 +37,9 @@ public class NetworkUser {
 
     @Getter @Setter
     private String ip;
+
+    @Getter @Setter
+    private String rank;
 
     @Getter @Setter
     private int coins;
