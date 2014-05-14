@@ -195,8 +195,8 @@ public class DataAPI {
     /**
      * Save the network settings.
      */
-    public static void saveNetworkSettings() {
-        DAOManager.getNetworkSettingsDAO().save(getNetworkSettings());
+    public static void saveNetworkSettings(NetworkSettings settings) {
+        DAOManager.getNetworkSettingsDAO().save(settings);
     }
 
 }
