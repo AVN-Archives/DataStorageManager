@@ -12,7 +12,7 @@ public class NetworkSettings {
     public NetworkSettings() {
         coinMultiplier = 1;
         chatMode = "PUBLIC";
-        chatDelay = 0;
+        chatDelay = 5;
     }
 
     @Id
