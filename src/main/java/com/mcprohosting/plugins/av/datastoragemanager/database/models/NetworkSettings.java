@@ -1,6 +1,7 @@
 package com.mcprohosting.plugins.av.datastoragemanager.database.models;
 
 import lombok.Getter;
+import lombok.Setter;
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.Id;
@@ -9,7 +10,7 @@ import org.mongodb.morphia.annotations.Id;
 public class NetworkSettings {
 
     public NetworkSettings() {
-        coinMultiplier = 0;
+        coinMultiplier = 1;
         chatMode = "PUBLIC";
         chatDelay = 0;
     }
@@ -18,13 +19,13 @@ public class NetworkSettings {
     @Getter
     private ObjectId id;
 
-    @Getter
+    @Getter @Setter
     private int coinMultiplier;
 
-    @Getter
+    @Getter @Setter
     private String chatMode;
 
-    @Getter
+    @Getter @Setter
     private long chatDelay;
 
 }

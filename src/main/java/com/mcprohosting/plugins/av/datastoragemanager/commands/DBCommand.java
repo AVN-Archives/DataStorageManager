@@ -94,4 +94,30 @@ public class DBCommand {
         sender.sendMessage(FontFormat.translateString("&aRank Updated!"));
     }
 
+    @SubCommandHandler(parent = "db", name = "setcoinmultiplier", permission = "antvenomdsm.setcoinmultiplier")
+    public void setCoinMultiplier(CommandSender sender, String[] args) {
+        if (args.length != 1) {
+            sender.sendMessage(FontFormat.translateString("&cYou must specify a multiplier."));
+            return;
+        }
+
+        int multiplier;
+        try {
+            multiplier = Integer.parseInt(args[0]);
+        } catch (NumberFormatException e) {
+            sender.sendMessage(FontFormat.translateString("&cYou must specify a number for the multiplier."));
+            return;
+        }
+
+        DataAPI.getNetworkSettings().setCoinMultiplier(1);
+        DataAPI.saveNetworkSettings();
+        sender.sendMessage(FontFormat.translateString("&aThe coin multiplier has been set to &6" + multiplier + "&a!"));
+    }
+
+    @SubCommandHandler(parent = "db", name = "showcoinmultiplier", permission = "antvenomdsm.showcoinmultiplier")
+    public void showCoinMultiplier(CommandSender sender, String[] args) {
+        sender.sendMessage(FontFormat.translateString("&aThe coin multiplier is currently set to &6" +
+                DataAPI.getNetworkSettings().getCoinMultiplier() + "&a!"));
+    }
+
 }
