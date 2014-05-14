@@ -15,7 +15,6 @@ public class DataStorageManager extends JavaPlugin {
     private static DataStorageManager instance;
     private static MongoResource mongoResource;
     private static DAOManager daoManager;
-    @Getter private NetworkSettings settings;
 
     public void onEnable() {
         instance = this;
@@ -49,11 +48,11 @@ public class DataStorageManager extends JavaPlugin {
     }
 
     private void initSettings() {
-        settings = DAOManager.getNetworkSettingsDAO().find().get();
+        NetworkSettings settings = DAOManager.getNetworkSettingsDAO().find().get();
 
         if (settings == null) {
             settings = new NetworkSettings();
-            DAOManager.getDatastore().save(settings);
+            DAOManager.getNetworkSettingsDAO().save(settings);
         }
     }
 

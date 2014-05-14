@@ -189,7 +189,7 @@ public class DataAPI {
      * @return settings network settings
      */
     public static NetworkSettings getNetworkSettings() {
-        return DataStorageManager.getInstance().getSettings();
+        return DAOManager.getNetworkSettingsDAO().find().get();
     }
 
     /**
