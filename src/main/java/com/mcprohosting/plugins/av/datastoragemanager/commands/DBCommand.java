@@ -3,6 +3,7 @@ package com.mcprohosting.plugins.av.datastoragemanager.commands;
 import com.gmail.favorlock.commonutils.command.SubCommandHandler;
 import com.gmail.favorlock.commonutils.text.FontFormat;
 import com.mcprohosting.plugins.av.datastoragemanager.api.DataAPI;
+import com.mcprohosting.plugins.av.datastoragemanager.database.models.NetworkSettings;
 import com.mcprohosting.plugins.av.datastoragemanager.database.models.NetworkUser;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -109,8 +110,10 @@ public class DBCommand {
             return;
         }
 
-        DataAPI.getNetworkSettings().setCoinMultiplier(multiplier);
-        DataAPI.saveNetworkSettings();
+        NetworkSettings settings = DataAPI.getNetworkSettings();
+        settings.setCoinMultiplier(multiplier);
+
+        DataAPI.saveNetworkSettings(settings);
         sender.sendMessage(FontFormat.translateString("&aThe coin multiplier has been set to &6" + multiplier + "&a!"));
     }
 
