@@ -109,7 +109,7 @@ public class DBCommand {
             return;
         }
 
-        DataAPI.getNetworkSettings().setCoinMultiplier(1);
+        DataAPI.getNetworkSettings().setCoinMultiplier(multiplier);
         DataAPI.saveNetworkSettings();
         sender.sendMessage(FontFormat.translateString("&aThe coin multiplier has been set to &6" + multiplier + "&a!"));
     }
