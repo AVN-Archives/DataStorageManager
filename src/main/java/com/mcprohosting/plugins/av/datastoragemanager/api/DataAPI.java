@@ -1,6 +1,8 @@
 package com.mcprohosting.plugins.av.datastoragemanager.api;
 
+import com.mcprohosting.plugins.av.datastoragemanager.DataStorageManager;
 import com.mcprohosting.plugins.av.datastoragemanager.database.DAOManager;
+import com.mcprohosting.plugins.av.datastoragemanager.database.models.NetworkSettings;
 import com.mcprohosting.plugins.av.datastoragemanager.database.models.NetworkUser;
 import com.mcprohosting.plugins.av.datastoragemanager.database.models.NetworkUserPurchase;
 import com.mcprohosting.plugins.av.datastoragemanager.util.DataUtil;
@@ -179,6 +181,22 @@ public class DataAPI {
      */
     public static Set<Entry<String, NetworkUser>> getUserEntries() {
         return users.entrySet();
+    }
+
+    /**
+     * Get the network settings.
+     *
+     * @return settings network settings
+     */
+    public static NetworkSettings getNetworkSettings() {
+        return DataStorageManager.getInstance().getSettings();
+    }
+
+    /**
+     * Save the network settings.
+     */
+    public static void saveNetworkSettings() {
+        DAOManager.getNetworkSettingsDAO().save(getNetworkSettings());
     }
 
 }
