@@ -71,9 +71,13 @@ public class DataAPI {
             }
         }
 
-        NetworkUser user = DAOManager.getNetworkUserDAO().findOne(DAOManager.getNetworkUserDAO().createQuery().field("name").containsIgnoreCase(name));
+        for (NetworkUser user : DAOManager.getNetworkUserDAO().createQuery().field("name").containsIgnoreCase(name)) {
+            if (user.getName().equalsIgnoreCase(name)) {
+                return user;
+            }
+        }
 
-        return user;
+        return null;
     }
 
     /**
