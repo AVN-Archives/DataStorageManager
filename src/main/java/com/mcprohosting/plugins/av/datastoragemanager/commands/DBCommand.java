@@ -95,7 +95,7 @@ public class DBCommand {
 
             user = DataAPI.getUser(((Player) sender).getUniqueId().toString());
         } else {
-            user = DataAPI.retrieveUserByName(args[1]);
+            user = DataAPI.retrieveUserByName(args[0]);
         }
 
         if (user == null) {
