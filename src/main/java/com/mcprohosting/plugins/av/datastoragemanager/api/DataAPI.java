@@ -1,12 +1,10 @@
 package com.mcprohosting.plugins.av.datastoragemanager.api;
 
-import com.mcprohosting.plugins.av.datastoragemanager.DataStorageManager;
 import com.mcprohosting.plugins.av.datastoragemanager.database.DAOManager;
 import com.mcprohosting.plugins.av.datastoragemanager.database.models.NetworkSettings;
 import com.mcprohosting.plugins.av.datastoragemanager.database.models.NetworkUser;
 import com.mcprohosting.plugins.av.datastoragemanager.database.models.NetworkUserPurchase;
 import com.mcprohosting.plugins.av.datastoragemanager.util.DataUtil;
-import org.bukkit.entity.Player;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -73,7 +71,8 @@ public class DataAPI {
             }
         }
 
-        NetworkUser user = DAOManager.getNetworkUserDAO().findOne("name", name);
+        //NetworkUser user = DAOManager.getNetworkUserDAO().findOne("name", name);
+        NetworkUser user = DAOManager.getNetworkUserDAO().findOne(DAOManager.getNetworkUserDAO().createQuery().field("name").containsIgnoreCase(name));
 
         return user;
     }
