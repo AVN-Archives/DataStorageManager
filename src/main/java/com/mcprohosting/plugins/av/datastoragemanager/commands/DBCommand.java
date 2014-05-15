@@ -110,7 +110,7 @@ public class DBCommand {
         }
 
         DataAPI.saveUser(user);
-        sender.sendMessage(FontFormat.translateString("&aRank Updated!"));
+        sender.sendMessage(FontFormat.translateString("&aRank update for user: " + user.getName() + "!"));
     }
 
     @SubCommandHandler(parent = "db", name = "setcoinmultiplier", permission = "antvenomdsm.setcoinmultiplier")
