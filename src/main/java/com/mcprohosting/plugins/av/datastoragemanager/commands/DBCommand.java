@@ -1,5 +1,6 @@
 package com.mcprohosting.plugins.av.datastoragemanager.commands;
 
+import com.gmail.favorlock.commonutils.command.CommandCompleter;
 import com.gmail.favorlock.commonutils.command.SubCommandHandler;
 import com.gmail.favorlock.commonutils.text.FontFormat;
 import com.mcprohosting.plugins.av.datastoragemanager.api.DataAPI;
@@ -9,7 +10,24 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class DBCommand {
+
+    @CommandCompleter(name = "db")
+    public List<String> dbCompleter(Player sender, String[] args) {
+        List<String> list = new ArrayList<>();
+
+        list.add("showcoins");
+        list.add("setcoins");
+        list.add("setrank");
+        list.add("setcoinmultiplier");
+        list.add("showcoinmultiplier");
+
+        return list;
+    }
+
 
     @SubCommandHandler(parent = "db", name = "showcoins")
     public void showcoins(Player sender, String[] args) {
