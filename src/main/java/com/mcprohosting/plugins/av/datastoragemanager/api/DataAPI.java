@@ -99,7 +99,6 @@ public class DataAPI {
             user = new NetworkUser(uuid);
         }
 
-        DataUtil.validate(user);
         DataUtil.updateNetworkUser(user, name, ip);
         DataAPI.addUser(user);
 
