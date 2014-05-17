@@ -47,15 +47,15 @@ public class NetworkUser {
     private int coins;
 
     @Embedded("preferences")
-    @Getter
+    @Getter @Setter
     private NetworkUserPreferences networkUserPreferences;
 
     @Embedded("moderation")
-    @Getter
+    @Getter @Setter
     private NetworkUserModeration networkUserModeration;
 
     @Embedded("hubdata")
-    @Getter
+    @Getter @Setter
     private NetworkUserHubData networkUserHubData;
 
     @Reference("purchases")
@@ -65,11 +65,11 @@ public class NetworkUser {
     /**
      * Ensures that any new data is initialized.
      *
-     * @param object a database object that will be mapped to this pojo
+     * @param user a database object that will be mapped to this pojo
      */
-    @PreLoad() void preload(DBObject object) {
-        if (object.get("hubdata") == null) {
-            object.put("hubdata", new NetworkUserHubData());
+    @PostLoad() void postload(NetworkUser user) {
+        if (user.getNetworkUserHubData() == null) {
+            user.setNetworkUserHubData(new NetworkUserHubData());
         }
     }
 
