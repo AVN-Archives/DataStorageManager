@@ -62,15 +62,4 @@ public class NetworkUser {
     @Getter
     private List<NetworkUserPurchase> networkUserPurchases = new ArrayList<NetworkUserPurchase>();
 
-    /**
-     * Ensures that any new data is initialized.
-     *
-     * @param user a database object that will be mapped to this pojo
-     */
-    @PostLoad() void postload(NetworkUser user) {
-        if (user.getNetworkUserHubData() == null) {
-            user.setNetworkUserHubData(new NetworkUserHubData());
-        }
-    }
-
 }
