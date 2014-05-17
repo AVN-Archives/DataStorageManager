@@ -1,5 +1,6 @@
 package com.mcprohosting.plugins.av.datastoragemanager.database.models;
 
+import com.mongodb.DBObject;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -21,6 +22,7 @@ public class NetworkUser {
         this.rank = "DEFAULT";
         this.networkUserPreferences = new NetworkUserPreferences();
         this.networkUserModeration = new NetworkUserModeration();
+        this.networkUserHubData = new NetworkUserHubData();
     }
 
     @Id
@@ -52,8 +54,23 @@ public class NetworkUser {
     @Getter
     private NetworkUserModeration networkUserModeration;
 
+    @Embedded("hubdata")
+    @Getter
+    private NetworkUserHubData networkUserHubData;
+
     @Reference("purchases")
     @Getter
     private List<NetworkUserPurchase> networkUserPurchases = new ArrayList<NetworkUserPurchase>();
+
+    /**
+     * Ensures that any new data is initialized.
+     *
+     * @param object a database object that will be mapped to this pojo
+     */
+    @PreLoad() void preload(DBObject object) {
+        if (object.get("hubdata") == null) {
+            object.put("hubdata", new NetworkUserHubData());
+        }
+    }
 
 }
