@@ -14,44 +14,39 @@ import java.util.Map.Entry;
 
 public class DataAPI {
 
-    private static Map<String, NetworkUser> users;
-
-    static {
-        users = new HashMap<>();
-    }
-
-    /**
-     * Add a user to the users map
-     *
-     * @param user the ebean of the user
-     */
-    public static void addUser(NetworkUser user) {
-        users.put(user.getUuid(), user);
-    }
-
     /**
      * Retrieve a network user instance from the users map if it exists,
-     * otherwise retrieve the user instance from the database and
-     * optionally store the network user into the user map.
+     * otherwise retrieve the user instance from the database.
      *
      * @param uuid the uuid of the user
-     * @param storeUser store the user into the user map if true
+     * @param storeUser does anything
      *
      * @return NetworkUser instance
      */
+    @Deprecated
     public static NetworkUser retrieveUser(String uuid, boolean storeUser) {
-        if (users.containsKey(uuid)) {
-            return users.get(uuid);
-        }
-
         NetworkUser user = DAOManager.getNetworkUserDAO().findOne("uuid", uuid);
 
         if (user == null) {
             return null;
         }
 
-        if (storeUser) {
-            DataAPI.addUser(user);
+        return user;
+    }
+
+    /**
+     * Retrieve a network user instance from the users map if it exists,
+     * otherwise retrieve the user instance from the database.
+     *
+     * @param uuid the uuid of the user
+     *
+     * @return NetworkUser instance
+     */
+    public static NetworkUser retrieveUser(String uuid) {
+        NetworkUser user = DAOManager.getNetworkUserDAO().findOne("uuid", uuid);
+
+        if (user == null) {
+            return null;
         }
 
         return user;
@@ -65,12 +60,6 @@ public class DataAPI {
      * @return NetworkUser instance
      */
     public static NetworkUser retrieveUserByName(String name) {
-        for (NetworkUser user : users.values()) {
-            if (user.getName().equalsIgnoreCase(name)) {
-                return user;
-            }
-        }
-
         for (NetworkUser user : DAOManager.getNetworkUserDAO().createQuery().field("name").containsIgnoreCase(name)) {
             if (user.getName().equalsIgnoreCase(name)) {
                 return user;
@@ -89,10 +78,6 @@ public class DataAPI {
      * @return Networkuser instance
      */
     public static NetworkUser initUser(String uuid, String name, String ip) {
-        if (users.containsKey(uuid)) {
-            return users.get(uuid);
-        }
-
         NetworkUser user = DAOManager.getNetworkUserDAO().findOne("uuid", uuid);
 
         if (user == null) {
@@ -100,18 +85,8 @@ public class DataAPI {
         }
 
         DataUtil.updateNetworkUser(user, name, ip);
-        DataAPI.addUser(user);
 
         return user;
-    }
-
-    /**
-     * Remove a user from the users map and save the user ebeans
-     *
-     * @param uuid the uuid of the user
-     */
-    public static void removeUser(String uuid) {
-        NetworkUser user = users.remove(uuid);
     }
 
     /**
@@ -122,16 +97,7 @@ public class DataAPI {
      * @return the network user ebean mapped to the specified uuid
      */
     public static NetworkUser getUser(String uuid) {
-        return users.get(uuid);
-    }
-
-    /**
-     * Get all network user ebeans as a collection
-     *
-     * @return collection of network user ebeans
-     */
-    public static Collection<NetworkUser> getUsers() {
-        return users.values();
+        return retrieveUser(uuid);
     }
 
     /**
@@ -173,15 +139,6 @@ public class DataAPI {
             user.getNetworkUserPurchases().add(purchase);
             DAOManager.getNetworkUserDAO().save(user);
         }
-    }
-
-    /**
-     * Get entries of all users.
-     *
-     * @return user entry set
-     */
-    public static Set<Entry<String, NetworkUser>> getUserEntries() {
-        return users.entrySet();
     }
 
     /**

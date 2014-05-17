@@ -20,10 +20,4 @@ public class PlayerListener implements Listener {
         DataStorageManager.getInstance().getLogger().info("Processing Time: " + (System.currentTimeMillis() - start) + "ms");
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
-    public void onPlayerQuit(PlayerQuitEvent event) {
-        Player player = event.getPlayer();
-        DataAPI.removeUser(player.getUniqueId().toString());
-    }
-
 }
