@@ -2,6 +2,7 @@ package com.mcprohosting.plugins.av.datastoragemanager.util;
 
 import com.mcprohosting.plugins.av.datastoragemanager.database.DAOManager;
 import com.mcprohosting.plugins.av.datastoragemanager.database.models.NetworkUser;
+import com.mcprohosting.plugins.av.datastoragemanager.database.models.NetworkUserHubData;
 
 public class DataUtil {
 
@@ -12,6 +13,10 @@ public class DataUtil {
 
         if (user.getIp() == null || user.getIp().equalsIgnoreCase(ip) == false) {
             user.setIp(ip);
+        }
+
+        if (user.getNetworkUserHubData() == null) {
+            user.setNetworkUserHubData(new NetworkUserHubData());
         }
 
         DAOManager.getNetworkUserDAO().save(user);
