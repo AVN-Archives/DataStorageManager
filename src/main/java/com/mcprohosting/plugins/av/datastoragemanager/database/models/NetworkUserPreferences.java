@@ -8,6 +8,9 @@ import lombok.Setter;
 public class NetworkUserPreferences {
 
     @Getter @Setter
-    private boolean vanished;
+    private boolean vanished = false;
+
+    @Getter @Setter
+    private boolean receiveMessages = true;
 
 }
