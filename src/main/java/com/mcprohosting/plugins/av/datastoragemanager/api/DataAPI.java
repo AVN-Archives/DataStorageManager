@@ -147,7 +147,14 @@ public class DataAPI {
      * @return settings network settings
      */
     public static NetworkSettings getNetworkSettings() {
-        return DAOManager.getNetworkSettingsDAO().find().get();
+        NetworkSettings settings = DAOManager.getNetworkSettingsDAO().find().get();
+
+        if (settings == null) {
+            settings = new NetworkSettings();
+            saveNetworkSettings(settings);
+        }
+
+        return settings;
     }
 
     /**
