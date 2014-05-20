@@ -1,5 +1,6 @@
 package com.mcprohosting.plugins.av.datastoragemanager.database;
 
+import com.mcprohosting.plugins.av.datastoragemanager.DataStorageManager;
 import com.mcprohosting.plugins.av.datastoragemanager.database.dao.NetworkSettingsDAO;
 import com.mcprohosting.plugins.av.datastoragemanager.database.dao.NetworkUserDAO;
 import com.mcprohosting.plugins.av.datastoragemanager.database.dao.NetworkUserPurchaseDAO;
@@ -9,6 +10,8 @@ import com.mcprohosting.plugins.av.datastoragemanager.database.models.NetworkUse
 import lombok.Getter;
 import org.mongodb.morphia.Datastore;
 
+import java.util.HashSet;
+
 public class DAOManager {
 
     @Getter private static Datastore datastore;
@@ -17,8 +20,8 @@ public class DAOManager {
     @Getter private static NetworkUserDAO networkUserDAO;
     @Getter private static NetworkUserPurchaseDAO networkUserPurchaseDAO;
 
-    public DAOManager(MongoResource resource) {
-        datastore = resource.getDatastore();
+    public DAOManager(ResourceManager resourceManager) {
+        datastore = resourceManager.getResource().getDatastore(new HashSet<Class>(DataStorageManager.getInstance().getDatabaseClasses()));
         ensureIndexes(datastore);
         registerDAO(datastore);
     }

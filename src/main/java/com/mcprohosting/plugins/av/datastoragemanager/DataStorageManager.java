@@ -2,26 +2,35 @@ package com.mcprohosting.plugins.av.datastoragemanager;
 
 import com.gmail.favorlock.commonutils.command.CommandController;
 import com.mcprohosting.plugins.av.datastoragemanager.commands.DBCommand;
+import com.mcprohosting.plugins.av.datastoragemanager.config.Settings;
 import com.mcprohosting.plugins.av.datastoragemanager.database.DAOManager;
-import com.mcprohosting.plugins.av.datastoragemanager.database.MongoResource;
-import com.mcprohosting.plugins.av.datastoragemanager.database.models.NetworkSettings;
+import com.mcprohosting.plugins.av.datastoragemanager.database.ResourceManager;
+import com.mcprohosting.plugins.av.datastoragemanager.database.models.*;
 import com.mcprohosting.plugins.av.datastoragemanager.listeners.PlayerListener;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
 public class DataStorageManager extends JavaPlugin {
 
-    private static DataStorageManager instance;
-    private static MongoResource mongoResource;
-    private static DAOManager daoManager;
+    @Getter private static DataStorageManager instance;
+    @Getter private static ResourceManager resourceManager;
+    @Getter private static DAOManager daoManager;
+    @Getter private static Settings settings;
 
     public void onEnable() {
         instance = this;
-        mongoResource = new MongoResource();
-        daoManager = new DAOManager(mongoResource);
+        resourceManager = new ResourceManager();
+        daoManager = new DAOManager(resourceManager);
+        settings = new Settings(this);
 
-        initSettings();
+        if (settings.initialize(this) == false) {
+            disable();
+        }
 
         registerCommands();
         registerListeners();
@@ -35,25 +44,21 @@ public class DataStorageManager extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new PlayerListener(), this);
     }
 
-    public static DataStorageManager getInstance() {
-        return instance;
+    private void disable() {
+        Bukkit.getPluginManager().disablePlugin(this);
     }
 
-    public static MongoResource getMongoResource() {
-        return mongoResource;
-    }
+    public List<Class<?>> getDatabaseClasses() {
+        List<Class<?>> list = new ArrayList<>();
 
-    public static DAOManager getDaoManager() {
-        return daoManager;
-    }
+        list.add(NetworkSettings.class);
+        list.add(NetworkUser.class);
+        list.add(NetworkUserHubData.class);
+        list.add(NetworkUserModeration.class);
+        list.add(NetworkUserPreferences.class);
+        list.add(NetworkUserPurchase.class);
 
-    private void initSettings() {
-        NetworkSettings settings = DAOManager.getNetworkSettingsDAO().find().get();
-
-        if (settings == null) {
-            settings = new NetworkSettings();
-            DAOManager.getNetworkSettingsDAO().save(settings);
-        }
+        return list;
     }
 
 }

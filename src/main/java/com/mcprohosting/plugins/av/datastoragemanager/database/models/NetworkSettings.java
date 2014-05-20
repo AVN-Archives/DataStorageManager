@@ -23,9 +23,11 @@ public class NetworkSettings {
     private int coinMultiplier;
 
     @Getter @Setter
+    @Deprecated
     private String chatMode;
 
     @Getter @Setter
+    @Deprecated
     private long chatDelay;
 
 }
