@@ -13,7 +13,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 public class DataStorageManager extends JavaPlugin {
 
@@ -24,13 +23,14 @@ public class DataStorageManager extends JavaPlugin {
 
     public void onEnable() {
         instance = this;
-        resourceManager = new ResourceManager();
-        daoManager = new DAOManager(resourceManager);
         settings = new Settings(this);
 
         if (settings.initialize(this) == false) {
             disable();
         }
+
+        resourceManager = new ResourceManager();
+        daoManager = new DAOManager(resourceManager);
 
         registerCommands();
         registerListeners();
