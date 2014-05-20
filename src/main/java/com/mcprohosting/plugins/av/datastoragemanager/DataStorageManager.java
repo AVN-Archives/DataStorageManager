@@ -53,9 +53,6 @@ public class DataStorageManager extends JavaPlugin {
 
         list.add(NetworkSettings.class);
         list.add(NetworkUser.class);
-        list.add(NetworkUserHubData.class);
-        list.add(NetworkUserModeration.class);
-        list.add(NetworkUserPreferences.class);
         list.add(NetworkUserPurchase.class);
 
         return list;
